@@ -11,4 +11,4 @@
 6. Через JavaScript реализован вызов формы, способной редактировать имя и профессию пользователя;
 
 ## Ссылка на проект в GitHub Pages
-
+https://anastasiyafitisova.github.io/mesto/
