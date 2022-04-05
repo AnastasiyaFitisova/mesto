@@ -4,14 +4,14 @@
     background-color: black;
     border: 2px solid #FFFFFF;
     border-radius: 2px;
-    background-image: url(../../../images/profile/Vector\ \(1\).svg);
+    background-image: url(../../../images/profile/Add-button.svg);
     background-repeat: no-repeat;
     background-position: center;
+    transition: background-image 0.3s;
 }
 
 .profile__add-button:hover {
     opacity: 0.6;
-    transition: 0.3s;
     cursor: pointer;
 }
 

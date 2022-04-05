@@ -4,14 +4,14 @@
     margin-top: 15px;
     border: 1px solid #FFFFFF;
     background-color: black;
-    background-image: url(../../../images/profile/Vector.svg);
+    background-image: url(../../../images/profile/Set-button.svg);
     background-repeat: no-repeat;
     background-position: center;
+    transition: background-image 0.3s;
 }
 
 .profile__set-button:hover {
     opacity: 0.6;
-    transition: 0.3s;
     cursor: pointer;
 }
 
