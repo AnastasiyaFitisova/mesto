@@ -89,22 +89,23 @@ function getElement(item) {
     const element = evt.target.closest('.card');
     element.remove();
   }
+
+  //image popap
   
   const imgModalWindow = document.querySelector('.popup_img-view');
   const bigImage = imgModalWindow.querySelector('.popup__image');
   const bigImgDescription = imgModalWindow.querySelector('.popup__place-description');
   const imgModalWindowClose = imgModalWindow.querySelector('.popup__close-button');
   
-  function openImgModalWindow(item) {
+  function openImgModalWindow() {
     imgModalWindow.classList.add('popup_activated');
     bigImage.src = cardImage.src;
     bigImgDescription.textContent = cardSubtitle.textContent;
   }
   cardImage.addEventListener('click', openImgModalWindow);
-   
   
   function closeImgModalWindow() {
-    imageBigView.classList.remove('popup_activated');
+    imgModalWindow.classList.remove('popup_activated');
   }
   imgModalWindowClose.addEventListener('click', closeImgModalWindow);
 
