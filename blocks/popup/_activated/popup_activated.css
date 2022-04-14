@@ -1,7 +1,4 @@
 .popup_activated {
   visibility: visible;
   opacity: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
