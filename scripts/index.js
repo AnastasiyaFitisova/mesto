@@ -2,9 +2,9 @@
 let profileCorrectButton = document.querySelector('.profile__set-button'); //кнопка редактировать профиль
 let profileCorrectWindow = document.querySelector('.popup_correct-info');//попап редактирования профиля
 let profileCorrectCloseButton = profileCorrectWindow.querySelector('.popup__close-button');//кнопка закрытия редактирования
-let profileformElement = profileCorrectWindow.querySelector('.popup__form');//форма редактирования
-let nameInput = profileformElement.querySelector('.popup__input-name');//строка ввода имени
-let jobInput = profileformElement.querySelector('.popup__input-position');//строка ввода профессии
+let profileFormElement = profileCorrectWindow.querySelector('.popup__form');//форма редактирования
+let nameInput = profileFormElement.querySelector('.popup__input-name');//строка ввода имени
+let jobInput = profileFormElement.querySelector('.popup__input-position');//строка ввода профессии
 let profileName = document.querySelector('.profile__name');
 let profilePosition = document.querySelector('.profile__position')
 
@@ -108,7 +108,7 @@ imageModalWindowClose.addEventListener('click', ()=>handleClosePopup(imageModalW
 //слушатели риедктирования профиля
 profileCorrectButton.addEventListener('click', profileCorrectInput);
 profileCorrectCloseButton.addEventListener('click', ()=>handleClosePopup(profileCorrectWindow));
-profileformElement.addEventListener('submit', handleProfileFormSubmit);
+profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 
 //слушатели ручного добавления карточек
 cardAddButton.addEventListener('click', ()=>handleOpenPopup(cardModalWindow));
