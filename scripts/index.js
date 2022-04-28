@@ -3,8 +3,8 @@ let profileCorrectButton = document.querySelector('.profile__set-button'); //к�
 let profileCorrectWindow = document.querySelector('.popup_correct-info');//попап редактирования профиля
 let profileCorrectCloseButton = profileCorrectWindow.querySelector('.popup__close-button');//кнопка закрытия редактирования
 let profileFormElement = profileCorrectWindow.querySelector('.popup__form');//форма редактирования
-let nameInput = profileFormElement.querySelector('.popup__input-name');//строка ввода имени
-let jobInput = profileFormElement.querySelector('.popup__input-position');//строка ввода профессии
+let nameInput = profileFormElement.querySelector('.popup__input_type_name');//строка ввода имени
+let jobInput = profileFormElement.querySelector('.popup__input_type_position');//строка ввода профессии
 let profileName = document.querySelector('.profile__name');
 let profilePosition = document.querySelector('.profile__position')
 
@@ -92,11 +92,11 @@ function handleCardDelete(evt) {
 }
 
 //функции ручного добавления новых карточек
-function handleAddCard(evt) {
+function handleAddCard(evt) { 
   evt.preventDefault();
   evt.target.reset();
-  const newPlaceName = cardModalWindow.querySelector('.popup__input-place').value;
-  const newPlacePhoto = cardModalWindow.querySelector('.popup__input-link').value;
+  const newPlaceName = cardModalWindow.querySelector('.popup__input_type_place').value;
+  const newPlacePhoto = cardModalWindow.querySelector('.popup__input_type_link').value;
   const newPlaceCard = createCards({name: newPlaceName, link: newPlacePhoto});
   cardsContainer.prepend(newPlaceCard);
   handleClosePopup(cardModalWindow);
