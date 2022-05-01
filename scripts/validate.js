@@ -1,56 +1,85 @@
-//Элементы формы
-const formElement = document.querySelector('.popup__form'); //форма
-const formInput = formElement.querySelector('.popup__input'); //input
+const config = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__submit-button",
+  inactiveButtonSelector: "popup__submit-button_disabled",
+  inputErrorSelector: "popup__input_not-valid"
+};
 
-//Функции стилей и сообщения ошибки
-const showInputError = (formElement, formInput, errorMessage) => {
-  const formError = formElement.querySelector(`#${formInput.id}-error`);
-  formInput.classList.add('popup__input_not-valid');
-  formError.textContent = errorMessage;
+//показать стили и текст ошибки
+const showInputError = (formInput, config) => {
+  const formError = document.querySelector(`#${formInput.id}-error`);
+  formInput.classList.add(config.inputErrorSelector);
+  formError.textContent = formInput.validationMessage;
 }
 
-const hideInputError = (formElement, formInput) => {
-  const formError = formElement.querySelector(`#${formInput.id}-error`);
-  formInput.classList.remove('popup__input_not-valid');
+//скрыть стили и текст ошибки
+const hideInputError = (formInput, config) => {
+  const formError = document.querySelector(`#${formInput.id}-error`);
+  formInput.classList.remove(config.inputErrorSelector);
   formError.textContent = '';
 }
 
-const checkInputValidity = (formElement, formInput) => {
+//проверка валидности инпутов
+const checkInputValidity = (formInput, config) => {
   if (!formInput.validity.valid) {
-    showInputError(formElement, formInput, formInput.validationMessage);
+    showInputError(formInput, config);
   } else {
-    hideInputError(formElement, formInput);
+    hideInputError(formInput, config);
   }
 };
 
-formElement.addEventListener('submit', function (evt) {
-  evt.preventDefault();
+//проверка наличия не валидных инпутов
+const hasInvalidInput = (inputs) => {
+  return inputs.some((formInput) => {
+  return !formInput.validity.valid;
 });
+}
 
-formInput.addEventListener('input', function () {
-  checkInputValidity();
-});
+//стили кнопки при невалидных ипутах
+const toggleButton = (formElement, inputs, config) => {
+  const buttons = Array.from(formElement.querySelectorAll(config.submitButtonSelector));
 
-const setEventListeners = (formElement) => {
-  const inputs = Array.from(formElement.querySelectorAll('.form__input'));
+  buttons.forEach((formButton) => {
+    if (hasInvalidInput(inputs)) {
+      formButton.classList.add(config.inactiveButtonSelector);
+      formButton.disabled = true;
+    } else {
+      formButton.classList.remove(config.inactiveButtonSelector);
+      formButton.disabled = false;
+    }
+  });
+}
+
+const setEventListeners = (formElement, config) => {
+  const inputs = Array.from(formElement.querySelectorAll(config.inputSelector));
+  
+  toggleButton(formElement, inputs, config);
   
   inputs.forEach((formInput) => {
     formInput.addEventListener('input', () => {
-    checkInputValidity(formElement, formInput)
+      checkInputValidity(formInput, config);
+      toggleButton(formElement, inputs, config);
+    });
   });
-});
-
 };
 
-const enableValidation = () => {
-  const forms = Array.from(document.querySelectorAll('.form'));
+const enableValidation = (config) => {
+  const forms = Array.from(document.querySelectorAll(config.formSelector));
 
   forms.forEach((formElement) => {
     formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
-    setEventListeners(formElement);
+    setEventListeners(formElement, config);
   });
 };
 
-enableValidation(); 
+enableValidation(config); 
+
+function deleteErrorInfo (config, popup) {
+  const popups = Array.from(popup.querySelectorAll(config.inputSelector));
+  popups.forEach((elements) => {
+    hideInputError (elements, config)
+  })
+}

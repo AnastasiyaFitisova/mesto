@@ -6,7 +6,7 @@ let profileFormElement = profileCorrectWindow.querySelector('.popup__form');//ф
 let nameInput = profileFormElement.querySelector('.popup__input_type_name');//строка ввода имени
 let jobInput = profileFormElement.querySelector('.popup__input_type_position');//строка ввода профессии
 let profileName = document.querySelector('.profile__name');
-let profilePosition = document.querySelector('.profile__position')
+let profilePosition = document.querySelector('.profile__position');
 
 //загрузка карточек
 const cardsContainer = document.querySelector('.elements__cardholder');//<ul>
@@ -27,32 +27,61 @@ const imageModalWindowClose = imageModalWindow.querySelector('.popup__close-butt
 //функции открытия и закрытия попап
 function handleOpenPopup(popup) {
   popup.classList.add('popup_activated');
-}
+  deleteErrorInfo (config, popup);
+};
+
 function handleClosePopup(popup) {
   popup.classList.remove('popup_activated');
-}
+};
+
+
+//закрытие попап нажатием на оверлей
+function closePopupOnOverlay() {
+  const overlays = Array.from(document.querySelectorAll('.popup'))
+
+  overlays.forEach((popup) => {
+    popup.addEventListener('click', (evt) => {
+      if (evt.target === evt.currentTarget) {
+        handleClosePopup(popup)
+      }
+    });
+  });
+};
+
+closePopupOnOverlay();
+
+//закрытие попап нажатием на Esc
+
+function closePopupOnEcs(evt) {
+  const openPopup = document.querySelector('.popup_activated');
+  if (evt.key === "Escape") {
+    handleClosePopup(openPopup);
+  };
+};
+
+document.addEventListener('keydown', closePopupOnEcs);
 
 //функции редактирования профиля
 function profileCorrectInput() {
   nameInput.value = profileName.textContent;
   jobInput.value = profilePosition.textContent;
   handleOpenPopup(profileCorrectWindow);
-}
+};
 function handleProfileFormSubmit (evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profilePosition.textContent = jobInput.value
     handleClosePopup(profileCorrectWindow)
-}
+};
 
 //функции загрузки карточек на страницу
 function render() {
   const html = initialCards.map(createCards) 
   renderCards(html);
-}
+};
 function renderCards(cards) {
   cardsContainer.prepend(...cards);
-}
+};
 function createCards(item){
   const getElementTemplate = template.content.cloneNode(true);
   const cardImage = getElementTemplate.querySelector('.card__image');//изображение места
@@ -74,22 +103,22 @@ function createCards(item){
     bigImage.alt = cardImage.alt;
     bigImagegDescription.textContent = cardSubtitle.textContent;
     handleOpenPopup(imageModalWindow);
-  }
+  };
 
   cardImage.addEventListener('click', ImageModalWindowInput);
   
   return getElementTemplate;
-}
+};
 render();
 
 //функции лайк и удаление карточек
 function handleLikeClick(evt) {
   evt.target.classList.toggle('card__like-button_activated');
-}
+};
 function handleCardDelete(evt) {
   const deletedElement = evt.target.closest('.card');
   deletedElement.remove();
-}
+};
 
 //функции ручного добавления новых карточек
 function handleAddCard(evt) { 
@@ -100,7 +129,7 @@ function handleAddCard(evt) {
   const newPlaceCard = createCards({name: newPlaceName, link: newPlacePhoto});
   cardsContainer.prepend(newPlaceCard);
   handleClosePopup(cardModalWindow);
-}
+};
 
 //просмотр увеличенного изображения - закрытие
 imageModalWindowClose.addEventListener('click', ()=>handleClosePopup(imageModalWindow));
