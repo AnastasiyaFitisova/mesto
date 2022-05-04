@@ -8,16 +8,16 @@ const config = {
 
 //показать стили и текст ошибки
 const showInputError = (formInput, config) => {
-  const formError = document.querySelector(`#${formInput.id}-error`);
+  const inputError = document.querySelector(`#${formInput.id}-error`);
   formInput.classList.add(config.inputErrorSelector);
-  formError.textContent = formInput.validationMessage;
+  inputError.textContent = formInput.validationMessage;
 }
 
 //скрыть стили и текст ошибки
 const hideInputError = (formInput, config) => {
-  const formError = document.querySelector(`#${formInput.id}-error`);
+  const inputError = document.querySelector(`#${formInput.id}-error`);
   formInput.classList.remove(config.inputErrorSelector);
-  formError.textContent = '';
+  inputError.textContent = '';
 }
 
 //проверка валидности инпутов
@@ -37,29 +37,29 @@ const hasInvalidInput = (inputs) => {
 }
 
 //стили кнопки при невалидных ипутах
-const toggleButton = (formElement, inputs, config) => {
-  const buttons = Array.from(formElement.querySelectorAll(config.submitButtonSelector));
+const toggleButton = (button, inputs, config) => {
+  
 
-  buttons.forEach((formButton) => {
     if (hasInvalidInput(inputs)) {
-      formButton.classList.add(config.inactiveButtonSelector);
-      formButton.disabled = true;
+      button.classList.add(config.inactiveButtonSelector);
+      button.disabled = true;
     } else {
-      formButton.classList.remove(config.inactiveButtonSelector);
-      formButton.disabled = false;
+      button.classList.remove(config.inactiveButtonSelector);
+      button.disabled = false;
     }
-  });
-}
+  };
+
 
 const setEventListeners = (formElement, config) => {
   const inputs = Array.from(formElement.querySelectorAll(config.inputSelector));
+  const button = formElement.querySelector(config.submitButtonSelector);
   
-  toggleButton(formElement, inputs, config);
+  toggleButton(button, inputs, config);
   
   inputs.forEach((formInput) => {
     formInput.addEventListener('input', () => {
       checkInputValidity(formInput, config);
-      toggleButton(formElement, inputs, config);
+      toggleButton(button, inputs, config);
     });
   });
 };
@@ -78,8 +78,8 @@ const enableValidation = (config) => {
 enableValidation(config); 
 
 function deleteErrorInfo (config, popup) {
-  const popups = Array.from(popup.querySelectorAll(config.inputSelector));
-  popups.forEach((elements) => {
+  const inputFields = Array.from(popup.querySelectorAll(config.inputSelector));
+  inputFields.forEach((elements) => {
     hideInputError (elements, config)
   })
 }
