@@ -1,3 +1,6 @@
+import {initialCards, Card} from './card.js';
+import {config, FormValidator} from './validate.js';
+
 //редактирование информации профиля
 const profileCorrectButton = document.querySelector('.profile__set-button'); //кнопка редактировать профиль
 const profileCorrectWindow = document.querySelector('.popup_correct-info');//попап редактирования профиля
@@ -8,21 +11,28 @@ const jobInput = profileFormElement.querySelector('.popup__input_type_position')
 const profileName = document.querySelector('.profile__name');
 const profilePosition = document.querySelector('.profile__position');
 
-//загрузка карточек
-const cardsContainer = document.querySelector('.elements__cardholder');//<ul>
-const template = document.querySelector('.template');//шаблон карточки
+
+const cardsContainer = document.querySelector('.elements__cardholder');//<ul> список карточек
 
 //ручное добавление новых карточек
 const cardAddButton = document.querySelector('.profile__add-button');//кнопка добавления карточки
 const cardModalWindow = document.querySelector('.popup_add-card');//форма для добавления карточки
 const cardModalCloseButton = cardModalWindow.querySelector('.popup__close-button');//кнопка закрытия формы добавления карточки
 const cardFormContainer = cardModalWindow.querySelector('.popup__content_add-card');
+const addCardFormElement = cardModalWindow.querySelector('.popup__form')
 
 //просмотр изображений
 const imageModalWindow = document.querySelector('.popup_img-view'); //popup просмотра изображения
 const bigImage = imageModalWindow.querySelector('.popup__image'); //изображение
 const bigImagegDescription = imageModalWindow.querySelector('.popup__place-description'); //описание изображения
 const imageModalWindowClose = imageModalWindow.querySelector('.popup__close-button');
+
+const profileForm = new FormValidator(config, profileFormElement);
+const addCardForm = new FormValidator(config, addCardFormElement);
+
+profileForm.enableValidation();
+addCardForm.enableValidation();
+
 
 //функции открытия и закрытия попап
 function handleOpenPopup(popup) {
@@ -72,52 +82,30 @@ function handleProfileFormSubmit (evt) {
 };
 
 //функции загрузки карточек на страницу
+function createCard(data) {
+  const card = new Card(data, '.template', openFullSizeImage);
+  const cardElement = card.generateCard();
+  return cardElement;
+};
+
 function renderCard ({name, link}) {
   cardsContainer.prepend(createCard({name, link}));
 }
+
 function addInatialCards() {
   initialCards.forEach(renderCard);
 };
 
-function createCard(item){
-  const cardTemplate = template.content.cloneNode(true);
-  const cardImage = cardTemplate.querySelector('.card__image');//изображение места
-  const cardSubtitle = cardTemplate.querySelector('.card__subtitle');//название места
-
-  cardSubtitle.textContent = item.name;
-  cardImage.src = item.link;
-  cardImage.alt = item.name;
-
-  const cardLikeButton = cardTemplate.querySelector('.card__like-button');//кнопка like
-  const cardDeleteButton = cardTemplate.querySelector('.card__del-button');//кнопка удаления карточки
-
-  cardDeleteButton.addEventListener('click', handleCardDelete);
-  cardLikeButton.addEventListener('click', handleLikeClick);
-
-//просмотр увеличенного изображения - открытие
-  function getImageInput() {
-    bigImage.src = cardImage.src;
-    bigImage.alt = cardImage.alt;
-    bigImagegDescription.textContent = cardSubtitle.textContent;
-    handleOpenPopup(imageModalWindow);
-  };
-
-  cardImage.addEventListener('click', getImageInput);
-  
-  return cardTemplate;
-};
-
 addInatialCards();
 
-//функции лайк и удаление карточек
-function handleLikeClick(evt) {
-  evt.target.classList.toggle('card__like-button_activated');
+//предзаполнение и открытие модального окна с увеличенным изображнием
+function openFullSizeImage(item) {
+  bigImage.src = item.link;
+  bigImage.alt = item.name;
+  bigImagegDescription.textContent = item.name;
+  handleOpenPopup(imageModalWindow);
 };
-function handleCardDelete(evt) {
-  const deletedElement = evt.target.closest('.card');
-  deletedElement.remove();
-};
-
+  
 //функции ручного добавления новых карточек
 function handleAddCard(evt) { 
   evt.preventDefault();
