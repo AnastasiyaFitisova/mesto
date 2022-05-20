@@ -1,5 +1,5 @@
-import {initialCards, Card} from './card.js';
-import {config, FormValidator} from './validate.js';
+import {initialCards, Card} from './Card.js';
+import {config, FormValidator} from './FormValidator.js';
 
 //редактирование информации профиля
 const profileCorrectButton = document.querySelector('.profile__set-button'); //кнопка редактировать профиль
@@ -69,7 +69,7 @@ function closePopupOnEcs(evt) {
 };
 
 //функции редактирования профиля
-function getInitialInput() {
+function openProfilePopup() {
   nameInput.value = profileName.textContent;
   jobInput.value = profilePosition.textContent;
   handleOpenPopup(profileCorrectWindow);
@@ -92,11 +92,11 @@ function renderCard ({name, link}) {
   cardsContainer.prepend(createCard({name, link}));
 }
 
-function addInatialCards() {
+function addInitialCards() {
   initialCards.forEach(renderCard);
 };
 
-addInatialCards();
+addInitialCards();
 
 //предзаполнение и открытие модального окна с увеличенным изображнием
 function openFullSizeImage(item) {
@@ -123,7 +123,7 @@ imageModalWindowClose.addEventListener('click', function() {
 
 //слушатели риедктирования профиля
 profileCorrectButton.addEventListener('click', function () {
-  getInitialInput();
+  openProfilePopup();
   profileForm.deleteErrorInfo();
 });
 profileCorrectCloseButton.addEventListener('click', function() {

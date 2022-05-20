@@ -74,6 +74,8 @@ class FormValidator {
   };
 
   enableValidation() {
+
+    this._setEventListeners();
     const _forms = Array.from(this._form.querySelectorAll(this._config.formSelector));
   
     _forms.forEach((formElement) => {
