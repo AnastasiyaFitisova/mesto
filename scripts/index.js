@@ -124,7 +124,7 @@ imageModalWindowClose.addEventListener('click', function() {
 //слушатели риедктирования профиля
 profileCorrectButton.addEventListener('click', function () {
   getInitialInput();
-  deleteErrorInfo(config, profileCorrectWindow);
+  profileForm.deleteErrorInfo();
 });
 profileCorrectCloseButton.addEventListener('click', function() {
   handleClosePopup(profileCorrectWindow)
@@ -134,10 +134,10 @@ profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 //слушатели ручного добавления карточек
 cardAddButton.addEventListener('click', function() {
   handleOpenPopup(cardModalWindow);
-  deleteErrorInfo(config, cardModalWindow);
+  addCardForm.deleteErrorInfo();
   const button = cardModalWindow.querySelector('.popup__submit-button')
   const inputs = Array.from(cardModalWindow.querySelectorAll('.popup__input'))
-  toggleButton(button, inputs, config)
+  addCardForm.toggleButton()
 });
 cardModalCloseButton.addEventListener('click', ()=>handleClosePopup(cardModalWindow));
 cardFormContainer.addEventListener('submit', handleAddCard);
