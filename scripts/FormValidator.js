@@ -1,16 +1,9 @@
-const config = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__submit-button",
-  inactiveButtonSelector: "popup__submit-button_disabled",
-  inputErrorSelector: "popup__input_not-valid"
-};
-
-class FormValidator {
+export class FormValidator {
 
   constructor(config, form) {
     this._config = config;
     this._form = form;
+    this._inputs = Array.from(this._form.querySelectorAll(this._config.inputSelector))
   };
 
   //показать стили и текст ошибки
@@ -33,13 +26,12 @@ class FormValidator {
       this._showInputError(formInput);
     } else {
       this._hideInputError(formInput);
-    }
+    };
 };
 
   //проверка наличия не валидных инпутов
   _hasInvalidInput() {
-    const inputs = Array.from(this._form.querySelectorAll(this._config.inputSelector))
-    return inputs.some((formInput) => {
+    return this._inputs.some((formInput) => {
       return !formInput.validity.valid;});
   };
 
@@ -57,8 +49,7 @@ class FormValidator {
 
   _setEventListeners() {
     this.toggleButton();
-    const inputs = Array.from(this._form.querySelectorAll(this._config.inputSelector))
-    inputs.forEach((formInput) => {
+    this._inputs.forEach((formInput) => {
       formInput.addEventListener('input', () => {
         this._checkInputValidity(formInput);
         this.toggleButton();
@@ -74,18 +65,9 @@ class FormValidator {
   };
 
   enableValidation() {
-
     this._setEventListeners();
-    const _forms = Array.from(this._form.querySelectorAll(this._config.formSelector));
-  
-    _forms.forEach((formElement) => {
-      formElement.addEventListener('submit', () => {
-        this._setEventListeners();
-      });
-    }); 
-  }
-}
+  };
 
-export {config, FormValidator};
+};
 
 

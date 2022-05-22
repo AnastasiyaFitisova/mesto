@@ -1,5 +1,6 @@
-import {initialCards, Card} from './Card.js';
-import {config, FormValidator} from './FormValidator.js';
+import {initialCards} from './cards.js';
+import {Card} from './Card.js';
+import {FormValidator} from './FormValidator.js';
 
 //редактирование информации профиля
 const profileCorrectButton = document.querySelector('.profile__set-button'); //кнопка редактировать профиль
@@ -27,12 +28,21 @@ const bigImage = imageModalWindow.querySelector('.popup__image'); //изобра
 const bigImagegDescription = imageModalWindow.querySelector('.popup__place-description'); //описание изображения
 const imageModalWindowClose = imageModalWindow.querySelector('.popup__close-button');
 
+//создание экземпляров класса FormValidator
+
+const config = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__submit-button",
+  inactiveButtonSelector: "popup__submit-button_disabled",
+  inputErrorSelector: "popup__input_not-valid"
+};
+
 const profileForm = new FormValidator(config, profileFormElement);
 const addCardForm = new FormValidator(config, addCardFormElement);
 
 profileForm.enableValidation();
 addCardForm.enableValidation();
-
 
 //функции открытия и закрытия попап
 function handleOpenPopup(popup) {
@@ -135,8 +145,6 @@ profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 cardAddButton.addEventListener('click', function() {
   handleOpenPopup(cardModalWindow);
   addCardForm.deleteErrorInfo();
-  const button = cardModalWindow.querySelector('.popup__submit-button')
-  const inputs = Array.from(cardModalWindow.querySelectorAll('.popup__input'))
   addCardForm.toggleButton()
 });
 cardModalCloseButton.addEventListener('click', ()=>handleClosePopup(cardModalWindow));
