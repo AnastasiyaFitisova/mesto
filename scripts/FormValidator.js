@@ -3,7 +3,7 @@ export class FormValidator {
   constructor(config, form) {
     this._config = config;
     this._form = form;
-    this._inputs = Array.from(this._form.querySelectorAll(this._config.inputSelector))
+    this._inputs = Array.from(this._form.querySelectorAll(this._config.inputSelector));
   };
 
   //показать стили и текст ошибки
