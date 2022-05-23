@@ -1,6 +1,6 @@
-import {initialCards} from './cards.js';
-import {Card} from './Card.js';
-import {FormValidator} from './FormValidator.js';
+import { initialCards } from './cards.js';
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
 
 //редактирование информации профиля
 const profileCorrectButton = document.querySelector('.profile__set-button'); //кнопка редактировать профиль
