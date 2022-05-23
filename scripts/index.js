@@ -1,5 +1,5 @@
 import {initialCards} from './cards.js';
-import {Card} from './card.js';
+import {Card} from './Card.js';
 import {FormValidator} from './FormValidator.js';
 
 //редактирование информации профиля
