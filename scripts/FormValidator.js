@@ -58,8 +58,7 @@ export class FormValidator {
   };
 
   deleteErrorInfo() {
-    const inputs = Array.from(this._form.querySelectorAll(this._config.inputSelector))
-    inputs.forEach((formInput) => {
+    this._inputs.forEach((formInput) => {
       this._hideInputError (formInput)
     })
   };
