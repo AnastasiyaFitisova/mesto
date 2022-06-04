@@ -1,0 +1,38 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "1. Flexbox контейнеры;\r 2. Адаптивная верстка;\r 3. Сайт разработан под различные экраны через медиазапросы - 1280px, 1024px, 768px, 320px;\r 4. Применена методология БЭМ и организация репозитория Nested;\r 5. Проект выполнен по макету в Figma;\r 6. Через JavaScript реализован вызов формы, способной редактировать имя и профессию пользователя, добавлять и удалять новые карточки с фотографиями мест,  просмотр увеличенных фото и возможность отметить понравившееся фото",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnastasiyaFitisova/mesto.git"
+  },
+  "author": "Fitisova Anastasiya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnastasiyaFitisova/mesto/issues"
+  },
+  "homepage": "https://github.com/AnastasiyaFitisova/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "autoprefixer": "^10.4.7",
+    "babel-loader": "^8.2.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.1",
+    "cssnano": "^5.1.10",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "postcss-loader": "^7.0.0",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.0"
+  },
+  "dependencies": {
+    "core-js": "^3.22.7"
+  }
+}

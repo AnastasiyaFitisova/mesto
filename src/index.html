@@ -7,20 +7,19 @@
   <meta name="author" lang="ru"
     content="Анастасия Фитисова; https://github.com/AnastasiyaFitisova; Email:anastasiya.fitisova@yandex.ru">
   <title>Mesto</title>
-  <link rel="stylesheet" href="./pages/index.css">
 </head>
 
 <body>
   <div class="page">
 
     <header class="header">
-      <img class="header__logo" src="./images/header/Mesto-logo.svg" alt="логотип страницы">
+      <img class="header__logo" src="<%=require('./images/header/Mesto-logo.svg')%>" alt="логотип страницы">
     </header>
 
     <main class="content">
 
       <section class="profile">
-        <img class="profile__avatar" src="./images/profile/profile-avatar.jpg"
+        <img class="profile__avatar" src="<%=require('./images/profile/profile-avatar.jpg')%>"
           alt="фото профиля, в данном примере - Жака Ив Кусто">
         <div class="profile__info">
           <div class="profile__container">
@@ -119,7 +118,7 @@
       <button class="card__del-button" aria-label="Удалить карточку" type="button"></button>
     </li>
   </template>
-  <script type="module" src="./scripts/index.js"></script>
+
 </body>
 
 </html>
