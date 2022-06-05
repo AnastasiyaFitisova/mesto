@@ -11,7 +11,8 @@ export class Section {
     });
   };
 
-  addEItem(item) {
+  addItem(item) {
     this._container.append(item);
   };
-}
+
+};

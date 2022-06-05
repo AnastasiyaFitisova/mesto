@@ -1,19 +1,16 @@
 //редактирование информации профиля
 const profileCorrectButton = document.querySelector('.profile__set-button'); //кнопка редактировать профиль
 const profileCorrectWindow = document.querySelector('.popup_correct-info');//попап редактирования профиля
-const profileCorrectCloseButton = profileCorrectWindow.querySelector('.popup__close-button');//кнопка закрытия редактирования
 const profileFormElement = profileCorrectWindow.querySelector('.popup__form');//форма редактирования
 const nameInput = profileFormElement.querySelector('.popup__input_type_name');//строка ввода имени
 const jobInput = profileFormElement.querySelector('.popup__input_type_position');//строка ввода профессии
-const profileName = document.querySelector('.profile__name');
-const profilePosition = document.querySelector('.profile__position');
 
 //ручное добавление новых карточек
 const cardAddButton = document.querySelector('.profile__add-button');//кнопка добавления карточки
 const cardModalWindow = document.querySelector('.popup_add-card');//форма для добавления карточки
-const cardModalCloseButton = cardModalWindow.querySelector('.popup__close-button');//кнопка закрытия формы добавления карточки
-const cardFormContainer = cardModalWindow.querySelector('.popup__content_add-card');
-const addCardFormElement = cardModalWindow.querySelector('.popup__form')
+const addCardFormElement = cardModalWindow.querySelector('.popup__form');//форма добавления места
+const cardName = cardModalWindow.querySelector('.popup__input_type_place');//строка ввода названия места
+const cardLink = cardModalWindow.querySelector('.popup__input_type_link')//строка ввода ссылки на фото
 
 
 const initialCards = [
@@ -51,6 +48,5 @@ const config = {
   inputErrorSelector: "popup__input_not-valid"
 };
 
-export {profileCorrectButton, profileCorrectWindow, profileCorrectCloseButton, profileFormElement, nameInput, jobInput,
-  profileName, profilePosition, cardAddButton, cardModalWindow, cardModalCloseButton, cardFormContainer, 
-  addCardFormElement, initialCards, config}
+export {profileCorrectButton, profileCorrectWindow, profileFormElement, nameInput, jobInput, 
+  cardAddButton, cardModalWindow, addCardFormElement, cardName, cardLink, initialCards, config};

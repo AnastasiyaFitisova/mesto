@@ -1,51 +1,47 @@
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
-import { profileCorrectButton, profileCorrectWindow, profileCorrectCloseButton, profileFormElement, nameInput, jobInput,
-  profileName, profilePosition, cardAddButton, cardModalWindow, cardModalCloseButton, cardFormContainer, 
-  addCardFormElement, initialCards, config } from '../utils/constants.js';
+import { profileCorrectButton, profileFormElement, nameInput, jobInput, cardAddButton, addCardFormElement, 
+  cardName, cardLink, initialCards, config } from '../utils/constants.js';
 import { Section } from '../components/Section.js';
 import '../pages/index.css';
 import { PopupWithImage } from '../components/PopupWithImage.js';
-import { PopupWithForm } from '../components/PopupWithForm.js'
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { UserInfo } from '../components/UserInfo.js';
  
-
 //добавление карточек на страницу
 function createCard(data) {
   const card = new Card(data, '.template', openFullSizeImage);
-  const cardElement = card.generateCard()
+  const cardElement = card.generateCard();
   return cardElement;
 };
 
 const addElementOnPage = new Section({
   data: initialCards,
   renderer: (item) => {
-    const element = createCard(item)
-    addElementOnPage.addEItem(element)
+    const element = createCard(item);
+    addElementOnPage.addItem(element);
   }
 }, '.elements__cardholder');
 
-addElementOnPage.renderItems()
+addElementOnPage.renderItems();
 
 //добавление карточек на страницу через форму
+const cardPopup = new PopupWithForm('.popup_add-card', 
+{handleFormSubmit: handleAddCard});
 
-const cardPopup = new PopupWithForm ('.popup_add-card', handleAddCard)
-
-
-function handleAddCard (item) { 
-  evt.preventDefault();
-  const handleCard = createCard(item)
-  addElementOnPage.addEItem(handleCard)
-  cardPopup.close()
+function handleAddCard() { 
+  const handleCard = createCard({name: cardName.value, link: cardLink.value});
+  addElementOnPage.addItem(handleCard);
+  cardPopup.close();
 };
-
 
 cardAddButton.addEventListener('click', () => {
   cardPopup.open();
   addCardForm.deleteErrorInfo();
-  addCardForm.toggleButton()
+  addCardForm.toggleButton();
 });
 
-cardPopup.setEventListeners()
+cardPopup.setEventListeners();
 
 //Валидация форм
 const profileForm = new FormValidator(config, profileFormElement);
@@ -61,38 +57,25 @@ function openFullSizeImage({name, link}) {
   popupWithImg.open({name, link});
 };
 
+//редактирование информации профиля
+const profilePopup = new PopupWithForm('.popup_correct-info', 
+{handleFormSubmit: submitUserInfo});
 
+const profileInfo = new UserInfo({
+  userName: '.profile__name', 
+  userPosition: '.profile__position'});
 
-
-
-//функции редактирования профиля 
-function openProfilePopup() {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profilePosition.textContent;
-  handleOpenPopup(profileCorrectWindow);
+function submitUserInfo() {
+  profileInfo.setUserInfo({name: nameInput.value, position: jobInput.value});
+  profilePopup.close();
 };
-
-function handleProfileFormSubmit (evt) {
-    evt.preventDefault();
-    profileName.textContent = nameInput.value;
-    profilePosition.textContent = jobInput.value
-    handleClosePopup(profileCorrectWindow)
-};
-
-
   
-
-
-
-
-//слушатели риедктирования профиля
-profileCorrectButton.addEventListener('click', function () {
-  openProfilePopup();
+profileCorrectButton.addEventListener('click', function() {
+  const userData = profileInfo.getUserInfo();
+  nameInput.value = userData.name;
+  jobInput.value = userData.position;
+  profilePopup.open();
   profileForm.deleteErrorInfo();
 });
-profileCorrectCloseButton.addEventListener('click', function() {
-  handleClosePopup(profileCorrectWindow)
-});
-profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 
-//слушатели ручного добавления карточек
+profilePopup.setEventListeners();

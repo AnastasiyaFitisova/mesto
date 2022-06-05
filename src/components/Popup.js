@@ -22,12 +22,12 @@ export class Popup {
   _handleOverlayClose = (evt) => {
     if (evt.target === evt.currentTarget) {
       this.close();
-    }
+    };
   };
 
   setEventListeners() {
     this._popup.querySelector('.popup__close-button').addEventListener('click', () => this.close());
-    this._popup.addEventListener('click', this._handleOverlayClose)
+    this._popup.addEventListener('click', this._handleOverlayClose);
   };
 
 };

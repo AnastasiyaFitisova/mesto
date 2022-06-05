@@ -59,8 +59,8 @@ export class FormValidator {
 
   deleteErrorInfo() {
     this._inputs.forEach((formInput) => {
-      this._hideInputError (formInput)
-    })
+      this._hideInputError (formInput);
+    });
   };
 
   enableValidation() {
