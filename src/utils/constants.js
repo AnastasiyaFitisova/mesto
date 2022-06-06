@@ -8,9 +8,7 @@ const jobInput = profileFormElement.querySelector('.popup__input_type_position')
 //ручное добавление новых карточек
 const cardAddButton = document.querySelector('.profile__add-button');//кнопка добавления карточки
 const cardModalWindow = document.querySelector('.popup_add-card');//форма для добавления карточки
-const addCardFormElement = cardModalWindow.querySelector('.popup__form');//форма добавления места
-const cardName = cardModalWindow.querySelector('.popup__input_type_place');//строка ввода названия места
-const cardLink = cardModalWindow.querySelector('.popup__input_type_link')//строка ввода ссылки на фото
+const CardFormElement = cardModalWindow.querySelector('.popup__form');//форма добавления места
 
 
 const initialCards = [
@@ -49,4 +47,4 @@ const config = {
 };
 
 export {profileCorrectButton, profileCorrectWindow, profileFormElement, nameInput, jobInput, 
-  cardAddButton, cardModalWindow, addCardFormElement, cardName, cardLink, initialCards, config};
+  cardAddButton, cardModalWindow, CardFormElement, initialCards, config};

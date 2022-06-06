@@ -1,7 +1,6 @@
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
-import { profileCorrectButton, profileFormElement, nameInput, jobInput, cardAddButton, addCardFormElement, 
-  cardName, cardLink, initialCards, config } from '../utils/constants.js';
+import { profileCorrectButton, profileFormElement, nameInput, jobInput, cardAddButton, CardFormElement, initialCards, config } from '../utils/constants.js';
 import { Section } from '../components/Section.js';
 import '../pages/index.css';
 import { PopupWithImage } from '../components/PopupWithImage.js';
@@ -15,40 +14,38 @@ function createCard(data) {
   return cardElement;
 };
 
-const addElementOnPage = new Section({
-  data: initialCards,
-  renderer: (item) => {
+const CardElementOnPage = new Section((item) => {
     const element = createCard(item);
-    addElementOnPage.addItem(element);
+    CardElementOnPage.addItem(element);
   }
-}, '.elements__cardholder');
+  , '.elements__cardholder');
 
-addElementOnPage.renderItems();
+CardElementOnPage.renderItems(initialCards);
 
 //добавление карточек на страницу через форму
-const cardPopup = new PopupWithForm('.popup_add-card', 
-{handleFormSubmit: handleAddCard});
-
-function handleAddCard() { 
-  const handleCard = createCard({name: cardName.value, link: cardLink.value});
-  addElementOnPage.addItem(handleCard);
-  cardPopup.close();
-};
+const cardPopup = new PopupWithForm('.popup_add-card', {
+  handleFormSubmit: (data) => {
+    const inputs = { name: data.placename, link: data.imagelink };
+    const handleCard = createCard(inputs);
+    CardElementOnPage.addItem(handleCard);
+    cardPopup.close();
+  }
+});
 
 cardAddButton.addEventListener('click', () => {
   cardPopup.open();
-  addCardForm.deleteErrorInfo();
-  addCardForm.toggleButton();
+  CardFormValidity.deleteErrorInfo();
+  CardFormValidity.toggleButton();
 });
 
 cardPopup.setEventListeners();
 
 //Валидация форм
-const profileForm = new FormValidator(config, profileFormElement);
-const addCardForm = new FormValidator(config, addCardFormElement);
+const profileFormValidity = new FormValidator(config, profileFormElement);
+const CardFormValidity = new FormValidator(config, CardFormElement);
 
-profileForm.enableValidation();
-addCardForm.enableValidation();
+profileFormValidity.enableValidation();
+CardFormValidity.enableValidation();
 
 //popup с изображением
 const popupWithImg = new PopupWithImage('.popup_img-view');
@@ -59,23 +56,21 @@ function openFullSizeImage({name, link}) {
 
 //редактирование информации профиля
 const profilePopup = new PopupWithForm('.popup_correct-info', 
-{handleFormSubmit: submitUserInfo});
+{handleFormSubmit: (data) => {
+  profileInfo.setUserInfo({name: data.profilename, position: data.position});
+  profilePopup.close();
+}});
 
 const profileInfo = new UserInfo({
   userName: '.profile__name', 
   userPosition: '.profile__position'});
-
-function submitUserInfo() {
-  profileInfo.setUserInfo({name: nameInput.value, position: jobInput.value});
-  profilePopup.close();
-};
   
 profileCorrectButton.addEventListener('click', function() {
   const userData = profileInfo.getUserInfo();
   nameInput.value = userData.name;
   jobInput.value = userData.position;
   profilePopup.open();
-  profileForm.deleteErrorInfo();
+  profileFormValidity.deleteErrorInfo();
 });
 
 profilePopup.setEventListeners();

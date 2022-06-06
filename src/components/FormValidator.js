@@ -37,17 +37,18 @@ export class FormValidator {
 
   //стили кнопки при невалидных ипутах
   toggleButton() {
-    const button = this._form.querySelector(this._config.submitButtonSelector);
+    
     if (this._hasInvalidInput()) {
-      button.classList.add(this._config.inactiveButtonSelector);
-      button.disabled = true;
+      this._button.classList.add(this._config.inactiveButtonSelector);
+      this._button.disabled = true;
     } else {
-      button.classList.remove(this._config.inactiveButtonSelector);
-      button.disabled = false;
+      this._button.classList.remove(this._config.inactiveButtonSelector);
+      this._button.disabled = false;
     }
   };
 
   _setEventListeners() {
+    this._button = this._form.querySelector(this._config.submitButtonSelector);
     this.toggleButton();
     this._inputs.forEach((formInput) => {
       formInput.addEventListener('input', () => {
