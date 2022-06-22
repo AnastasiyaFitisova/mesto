@@ -1,76 +1,138 @@
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
-import { profileCorrectButton, profileFormElement, nameInput, jobInput, cardAddButton, CardFormElement, initialCards, config } from '../utils/constants.js';
+import { profileCorrectButton, profileFormElement, nameInput, jobInput, cardAddButton, CardFormElement, config } from '../utils/constants.js';
 import { Section } from '../components/Section.js';
 import '../pages/index.css';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
- 
+import { Api } from '../components/Api.js';
+import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js';
+
+const api = new Api ('https://mesto.nomoreparties.co/v1/cohort-43', 
+'8636da29-c732-4db2-9071-001062507334');
+
 //добавление карточек на страницу
+const cardElementOnPage = new Section((cards) => {
+  const element = createCard(cards);
+  cardElementOnPage.addItem(element);
+}
+, '.elements__cardholder');
+
 function createCard(data) {
-  const card = new Card(data, '.template', openFullSizeImage);
+  const card = new Card(
+    data, 
+    '.template', 
+    openFullSizeImage,
+    userID,
+    handleDeleteClick)
   const cardElement = card.generateCard();
   return cardElement;
 };
 
-const CardElementOnPage = new Section((item) => {
-    const element = createCard(item);
-    CardElementOnPage.addItem(element);
-  }
-  , '.elements__cardholder');
-
-CardElementOnPage.renderItems(initialCards);
-
-//добавление карточек на страницу через форму
-const cardPopup = new PopupWithForm('.popup_add-card', {
-  handleFormSubmit: (data) => {
-    const inputs = { name: data.placename, link: data.imagelink };
-    const handleCard = createCard(inputs);
-    CardElementOnPage.addItem(handleCard);
-    cardPopup.close();
-  }
+api.getInitialCards()
+.then((cards) => {
+  cardElementOnPage.renderItems(cards);
+})
+.catch((err) => {
+  console.log(err);
 });
 
+
+//создание карточки через форму
 cardAddButton.addEventListener('click', () => {
   cardPopup.open();
-  CardFormValidity.deleteErrorInfo();
-  CardFormValidity.toggleButton();
+  cardFormValidity.deleteErrorInfo();
+  cardFormValidity.toggleButton();
+});
+
+const cardPopup = new PopupWithForm('.popup_add-card', {
+  handleFormSubmit: (data) => {
+    api.addCard(data.placename, data.imagelink)
+    .then((data) => {
+      const handleCards = createCard(data)
+      cardElementOnPage.addItem(handleCards);
+      cardPopup.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    
+  }
 });
 
 cardPopup.setEventListeners();
 
+//удаление карточки
+const delPopup = new PopupWithConfirmation ('.popup_card-del');
+
+function handleDeleteClick(card) {
+  delPopup.open();
+  delPopup.submitConfirmation(() => {
+    api.deleteCard(card.id)
+    .then(() => {
+      card.handleCardDelete()
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  });
+};
+
 //Валидация форм
 const profileFormValidity = new FormValidator(config, profileFormElement);
-const CardFormValidity = new FormValidator(config, CardFormElement);
+const cardFormValidity = new FormValidator(config, CardFormElement);
 
 profileFormValidity.enableValidation();
-CardFormValidity.enableValidation();
+cardFormValidity.enableValidation();
 
 //popup с изображением
 const popupWithImg = new PopupWithImage('.popup_img-view');
+
 popupWithImg.setEventListeners();
+
 function openFullSizeImage({name, link}) {
   popupWithImg.open({name, link});
 };
 
-//редактирование информации профиля
-const profilePopup = new PopupWithForm('.popup_correct-info', 
-{handleFormSubmit: (data) => {
-  profileInfo.setUserInfo({name: data.profilename, position: data.position});
-  profilePopup.close();
-}});
-
+//информация профиля
 const profileInfo = new UserInfo({
   userName: '.profile__name', 
-  userPosition: '.profile__position'});
-  
+  userPosition: '.profile__position',
+  userAvatar: '.profile__avatar'
+});
+
+let userID = null;
+
+api.getUserInfo()
+.then((data) => {
+  profileInfo.setUserInfo(data);
+  userID = data._id; 
+})
+.catch((err) => {
+  console.log(err);
+});
+
+//предзаполение формы профиля
 profileCorrectButton.addEventListener('click', function() {
   const userData = profileInfo.getUserInfo();
   nameInput.value = userData.name;
-  jobInput.value = userData.position;
+  jobInput.value = userData.about;
   profilePopup.open();
   profileFormValidity.deleteErrorInfo();
 });
+
+//редактирование формы профиля
+const profilePopup = new PopupWithForm('.popup_correct-info', 
+{handleFormSubmit: (data) => {
+  api.correctUserInfo(data.profilename, data.position)
+  .then((data) => {
+    profileInfo.setUserInfo(data)
+    profilePopup.close();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}});
 
 profilePopup.setEventListeners();
