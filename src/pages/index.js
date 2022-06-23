@@ -19,13 +19,25 @@ const cardElementOnPage = new Section((cards) => {
 }
 , '.elements__cardholder');
 
-function createCard(data) {
+const createCard = (data) => {
   const card = new Card(
     data, 
-    '.template', 
+    '.template',  
     openFullSizeImage,
-    userID,
-    handleDeleteClick)
+    userId,
+    (item) => {
+      delPopup.open();
+      delPopup.submitConfirmation(() => {
+        api.deleteCard(item._id)
+        .then(() => {
+          card.handleCardDelete();
+          delPopup.close();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      });
+    });
   const cardElement = card.generateCard();
   return cardElement;
 };
@@ -56,8 +68,7 @@ const cardPopup = new PopupWithForm('.popup_add-card', {
     })
     .catch((err) => {
       console.log(err);
-    });
-    
+    }); 
   }
 });
 
@@ -66,18 +77,7 @@ cardPopup.setEventListeners();
 //удаление карточки
 const delPopup = new PopupWithConfirmation ('.popup_card-del');
 
-function handleDeleteClick(card) {
-  delPopup.open();
-  delPopup.submitConfirmation(() => {
-    api.deleteCard(card.id)
-    .then(() => {
-      card.handleCardDelete()
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  });
-};
+delPopup.setEventListeners();
 
 //Валидация форм
 const profileFormValidity = new FormValidator(config, profileFormElement);
@@ -102,12 +102,12 @@ const profileInfo = new UserInfo({
   userAvatar: '.profile__avatar'
 });
 
-let userID = null;
+let userId = null;
 
 api.getUserInfo()
 .then((data) => {
   profileInfo.setUserInfo(data);
-  userID = data._id; 
+  userId = data._id; 
 })
 .catch((err) => {
   console.log(err);

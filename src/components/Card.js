@@ -1,10 +1,10 @@
 export class Card {
-  constructor(data, templateSelector, handleOpenCardImage, userID, handleDeleteClick) {
+  constructor(data, templateSelector, handleOpenCardImage, userId, handleDeleteClick) {
     this._name = data.name;
     this._link = data.link;
     this._templateSelector = templateSelector;
     this._handleOpenCardImage = handleOpenCardImage;
-    this._userID = userID;
+    this._userId = userId;
     this._ownerId = data.owner._id;
     this._handleDeleteClick = handleDeleteClick;
   };

@@ -95,6 +95,6 @@ export class Api {
 
       return Promise.reject('Возникла ошибка');
     });
-  };
+  }
 
 }
