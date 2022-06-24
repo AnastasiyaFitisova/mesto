@@ -7,9 +7,9 @@
     flex-shrink: 0;
     align-self: center;
     transition: background-image 0.3s;
-}
+};
 
 .card__like-button:hover {
     opacity: 0.5;
     cursor: pointer;
-}
+};

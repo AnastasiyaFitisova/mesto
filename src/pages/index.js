@@ -1,8 +1,9 @@
+import '../pages/index.css';
+
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { profileCorrectButton, profileFormElement, nameInput, jobInput, cardAddButton, CardFormElement, config } from '../utils/constants.js';
 import { Section } from '../components/Section.js';
-import '../pages/index.css';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
@@ -37,6 +38,24 @@ const createCard = (data) => {
           console.log(err);
         });
       });
+    },
+    (item) => {
+      api.setLike(item._id)
+      .then((res) => {
+        card.setCardLike(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }, 
+    (item) => {
+      api.deleteLike(item._id)
+      .then((res) => {
+        card.setCardDislike(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
     });
   const cardElement = card.generateCard();
   return cardElement;
@@ -78,13 +97,6 @@ cardPopup.setEventListeners();
 const delPopup = new PopupWithConfirmation ('.popup_card-del');
 
 delPopup.setEventListeners();
-
-//Валидация форм
-const profileFormValidity = new FormValidator(config, profileFormElement);
-const cardFormValidity = new FormValidator(config, CardFormElement);
-
-profileFormValidity.enableValidation();
-cardFormValidity.enableValidation();
 
 //popup с изображением
 const popupWithImg = new PopupWithImage('.popup_img-view');
@@ -136,3 +148,10 @@ const profilePopup = new PopupWithForm('.popup_correct-info',
 }});
 
 profilePopup.setEventListeners();
+
+//Валидация форм
+const profileFormValidity = new FormValidator(config, profileFormElement);
+const cardFormValidity = new FormValidator(config, CardFormElement);
+
+profileFormValidity.enableValidation();
+cardFormValidity.enableValidation();

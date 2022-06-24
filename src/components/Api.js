@@ -51,7 +51,6 @@ export class Api {
       method: 'GET',
       headers: this._headers
     })
-
     .then((res) => {
       if(res.ok) {
         return res.json();
@@ -72,7 +71,6 @@ export class Api {
       headers: this._headers,
       body: JSON.stringify(body)
     })
-
     .then((res) => {
       if(res.ok) {
         return res.json();
@@ -85,9 +83,8 @@ export class Api {
   deleteCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: this._headers
     })
-
     .then((res) => {
       if(res.ok) {
         return res.json();
@@ -95,6 +92,34 @@ export class Api {
 
       return Promise.reject('Возникла ошибка');
     });
-  }
+  };
 
-}
+  setLike(cardId) {
+    return fetch(`${this._url}/cards/${cardId}/likes`, {
+      method: 'PUT',
+      headers: this._headers
+    })
+    .then((res) => {
+      if(res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject('Возникла ошибка');
+    });
+  };
+
+  deleteLike(cardId) {
+    return fetch(`${this._url}/cards/${cardId}/likes`, {
+      method: 'DELETE',
+      headers: this._headers
+    })
+    .then((res) => {
+      if(res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject('Возникла ошибка');
+    });
+  };
+
+};
