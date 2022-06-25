@@ -2,7 +2,15 @@ import '../pages/index.css';
 
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
-import { profileCorrectButton, profileFormElement, nameInput, jobInput, cardAddButton, CardFormElement, config } from '../utils/constants.js';
+import { profileCorrectButton, 
+  profileFormElement, 
+  nameInput, 
+  jobInput, 
+  cardAddButton, 
+  cardFormElement, 
+  config, 
+  avatarChangeButton, 
+  avatarFormElement } from '../utils/constants.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
@@ -69,16 +77,10 @@ api.getInitialCards()
   console.log(err);
 });
 
-
 //создание карточки через форму
-cardAddButton.addEventListener('click', () => {
-  cardPopup.open();
-  cardFormValidity.deleteErrorInfo();
-  cardFormValidity.toggleButton();
-});
-
 const cardPopup = new PopupWithForm('.popup_add-card', {
   handleFormSubmit: (data) => {
+    cardPopup.isLoading(true, "Создать", "Создание...");
     api.addCard(data.placename, data.imagelink)
     .then((data) => {
       const handleCards = createCard(data)
@@ -87,8 +89,17 @@ const cardPopup = new PopupWithForm('.popup_add-card', {
     })
     .catch((err) => {
       console.log(err);
-    }); 
+    })
+    .finally(() => {
+      cardPopup.isLoading(false, "Создать", "Создание...");
+    });
   }
+});
+
+cardAddButton.addEventListener('click', () => {
+  cardPopup.open();
+  cardFormValidity.deleteErrorInfo();
+  cardFormValidity.toggleButton();
 });
 
 cardPopup.setEventListeners();
@@ -101,11 +112,11 @@ delPopup.setEventListeners();
 //popup с изображением
 const popupWithImg = new PopupWithImage('.popup_img-view');
 
-popupWithImg.setEventListeners();
-
 function openFullSizeImage({name, link}) {
   popupWithImg.open({name, link});
 };
+
+popupWithImg.setEventListeners();
 
 //информация профиля
 const profileInfo = new UserInfo({
@@ -125,6 +136,23 @@ api.getUserInfo()
   console.log(err);
 });
 
+//редактирование формы профиля
+const profilePopup = new PopupWithForm('.popup_correct-info', 
+{handleFormSubmit: (data) => {
+  profilePopup.isLoading(true, "Сохранить", "Сохранение...");
+  api.correctUserInfo(data.profilename, data.position)
+  .then((data) => {
+    profileInfo.setUserInfo(data)
+    profilePopup.close();
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
+    profilePopup.isLoading(false, "Сохранить", "Сохранение...");
+  });
+}});
+
 //предзаполение формы профиля
 profileCorrectButton.addEventListener('click', function() {
   const userData = profileInfo.getUserInfo();
@@ -134,24 +162,38 @@ profileCorrectButton.addEventListener('click', function() {
   profileFormValidity.deleteErrorInfo();
 });
 
-//редактирование формы профиля
-const profilePopup = new PopupWithForm('.popup_correct-info', 
+profilePopup.setEventListeners();
+
+//изменение аватара
+const avatarPopup = new PopupWithForm('.popup_change-avatar',
 {handleFormSubmit: (data) => {
-  api.correctUserInfo(data.profilename, data.position)
+  avatarPopup.isLoading(true, "Сохранить", "Сохранение...");
+  api.changeUserAvatar(data.photolink)
   .then((data) => {
-    profileInfo.setUserInfo(data)
-    profilePopup.close();
+    profileInfo.setUserInfo(data);
+    avatarPopup.close();
   })
   .catch((err) => {
     console.log(err);
+  })
+  .finally(() => {
+    avatarPopup.isLoading(false, "Сохранить", "Сохранение...");
   });
 }});
 
-profilePopup.setEventListeners();
+avatarChangeButton.addEventListener('click', function() {
+  avatarPopup.open();
+  avatarFormValidity.deleteErrorInfo();
+  avatarFormValidity.toggleButton();
+});
+
+avatarPopup.setEventListeners();
 
 //Валидация форм
 const profileFormValidity = new FormValidator(config, profileFormElement);
-const cardFormValidity = new FormValidator(config, CardFormElement);
+const cardFormValidity = new FormValidator(config, cardFormElement);
+const avatarFormValidity = new FormValidator(config, avatarFormElement);
 
 profileFormValidity.enableValidation();
 cardFormValidity.enableValidation();
+avatarFormValidity.enableValidation();

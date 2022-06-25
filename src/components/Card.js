@@ -49,7 +49,7 @@ export class Card {
     this._counter.textContent = String(this._likes.length);
   };
 
-  _isLiked = () => this._likes.some((card) => card._id === this._ownerId);
+  _isLiked = () => this._likes.some((item) => item._id === this._userId);
  
   _handleLikeButtonClick = () => {
     if (this._isLiked()) {
@@ -75,7 +75,7 @@ export class Card {
 
     //отображение своего лайка
     if (this._isLiked()) {
-      this.setCardLike
+      this.setCardLike(this._data)
     };
 
     //заполнение карточки данными

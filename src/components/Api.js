@@ -7,21 +7,20 @@ export class Api {
         'Authorization': this._token
       }
     };
+
+    _checkResult(res) {
+      if(res.ok) {
+        return res.json();
+      }
+      return Promise.reject('Возникла ошибка')
+    };
   
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       method: 'GET',
       headers: this._headers
     })
-
-    .then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject('Возникла ошибка');
-    });
-
+    .then(this._checkResult);
   };
 
   addCard(inputName, inputLink) {
@@ -35,15 +34,7 @@ export class Api {
       headers: this._headers,
       body: JSON.stringify(body)
     })
-
-    .then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject('Возникла ошибка');
-    });
-
+    .then(this._checkResult);
   };
 
   getUserInfo() {
@@ -51,14 +42,8 @@ export class Api {
       method: 'GET',
       headers: this._headers
     })
-    .then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject('Возникла ошибка');
-    });
-  }
+    .then(this._checkResult);
+  };
 
   correctUserInfo(userName, userPosition) {
     const body = {
@@ -71,13 +56,7 @@ export class Api {
       headers: this._headers,
       body: JSON.stringify(body)
     })
-    .then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject('Возникла ошибка');
-    });
+    .then(this._checkResult);
   };
 
   deleteCard(cardId) {
@@ -85,13 +64,7 @@ export class Api {
       method: 'DELETE',
       headers: this._headers
     })
-    .then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject('Возникла ошибка');
-    });
+    .then(this._checkResult);
   };
 
   setLike(cardId) {
@@ -99,13 +72,7 @@ export class Api {
       method: 'PUT',
       headers: this._headers
     })
-    .then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject('Возникла ошибка');
-    });
+    .then(this._checkResult);
   };
 
   deleteLike(cardId) {
@@ -113,13 +80,20 @@ export class Api {
       method: 'DELETE',
       headers: this._headers
     })
-    .then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
+    .then(this._checkResult);
+  };
 
-      return Promise.reject('Возникла ошибка');
-    });
+  changeUserAvatar(userAvatar) {
+    const body = {
+      avatar: userAvatar
+    };
+
+    return fetch(`${this._url}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify(body)
+    })
+    .then(this._checkResult);
   };
 
 };

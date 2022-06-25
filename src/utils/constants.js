@@ -5,10 +5,16 @@ const profileFormElement = profileCorrectWindow.querySelector('.popup__form');//
 const nameInput = profileFormElement.querySelector('.popup__input_type_name');//строка ввода имени
 const jobInput = profileFormElement.querySelector('.popup__input_type_position');//строка ввода профессии
 
+
 //ручное добавление новых карточек
 const cardAddButton = document.querySelector('.profile__add-button');//кнопка добавления карточки
 const cardModalWindow = document.querySelector('.popup_add-card');//форма для добавления карточки
-const CardFormElement = cardModalWindow.querySelector('.popup__form');//форма добавления места
+const cardFormElement = cardModalWindow.querySelector('.popup__form');//форма добавления места
+
+//изменение аватара пользователя
+const avatarChangeButton = document.querySelector('.profile__avatar-section');
+const avatarModalWindow = document.querySelector('.popup_change-avatar');
+const avatarFormElement = avatarModalWindow.querySelector('.popup__form');
 
 
 // const initialCards = [
@@ -47,4 +53,4 @@ const config = {
 };
 
 export {profileCorrectButton, profileCorrectWindow, profileFormElement, nameInput, jobInput, 
-  cardAddButton, cardModalWindow, CardFormElement, config};
+  cardAddButton, cardModalWindow, cardFormElement, config, avatarChangeButton, avatarFormElement};
