@@ -71,7 +71,7 @@ const createCard = (data) => {
 
 api.getInitialCards()
 .then((cards) => {
-  cardElementOnPage.renderItems(cards);
+  cardElementOnPage.renderItems(cards.reverse());
 })
 .catch((err) => {
   console.log(err);
@@ -83,8 +83,8 @@ const cardPopup = new PopupWithForm('.popup_add-card', {
     cardPopup.isLoading(true, "Создать", "Создание...");
     api.addCard(data.placename, data.imagelink)
     .then((data) => {
-      const handleCards = createCard(data)
-      cardElementOnPage.addItem(handleCards);
+      const newCard = createCard(data)
+      cardElementOnPage.addItem(newCard);
       cardPopup.close();
     })
     .catch((err) => {

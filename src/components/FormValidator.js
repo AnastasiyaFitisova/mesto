@@ -4,6 +4,7 @@ export class FormValidator {
     this._config = config;
     this._form = form;
     this._inputs = Array.from(this._form.querySelectorAll(this._config.inputSelector));
+    this._button = this._form.querySelector(this._config.submitButtonSelector);
   };
 
   //показать стили и текст ошибки
@@ -48,7 +49,6 @@ export class FormValidator {
   };
 
   _setEventListeners() {
-    this._button = this._form.querySelector(this._config.submitButtonSelector);
     this.toggleButton();
     this._inputs.forEach((formInput) => {
       formInput.addEventListener('input', () => {

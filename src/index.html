@@ -52,6 +52,7 @@
             <input class="popup__input popup__input_type_name" id="input-name"
             type="text"
             name="profilename"
+            placeholder="Имя пользователя"
             required
             minlength="2"
             maxlength="40">
@@ -61,6 +62,7 @@
             <input class="popup__input popup__input_type_position" id="input-position"
             type="text" 
             name="position"
+            placeholder="Профессия"
             required
             minlength="2"
             maxlength="200">
@@ -128,7 +130,7 @@
             name="photolink" 
             placeholder="Ссылка на изображение"
             required>
-            <span class="popup__error" id="input-link-err"></span>
+            <span class="popup__error" id="input-photolink-error"></span>
           </div>
           <button type="submit" class="popup__submit-button" aria-label="Сохранить изменение фото">Сохранить</button>
           <button type="button" class="popup__close-button" aria-label="Закрыть форму"></button>
