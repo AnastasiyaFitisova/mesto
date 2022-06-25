@@ -165,7 +165,7 @@ profileCorrectButton.addEventListener('click', function() {
 profilePopup.setEventListeners();
 
 //изменение аватара
-const avatarPopup = new PopupWithForm('.popup_change-avatar',
+const avatarPopup = new PopupWithForm('.popup_avatar',
 {handleFormSubmit: (data) => {
   avatarPopup.isLoading(true, "Сохранить", "Сохранение...");
   api.changeUserAvatar(data.photolink)

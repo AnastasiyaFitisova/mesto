@@ -13,7 +13,7 @@ const cardFormElement = cardModalWindow.querySelector('.popup__form');//форм
 
 //изменение аватара пользователя
 const avatarChangeButton = document.querySelector('.profile__avatar-section');
-const avatarModalWindow = document.querySelector('.popup_change-avatar');
+const avatarModalWindow = document.querySelector('.popup_avatar');
 const avatarFormElement = avatarModalWindow.querySelector('.popup__form');
 
 
