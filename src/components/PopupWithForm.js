@@ -25,9 +25,9 @@ export class PopupWithForm extends Popup {
 
   isLoading(state, loadedText, loadingText) {
     if(state) {
-      this._submitButton.textContent = loadedText;
-    } else {
       this._submitButton.textContent = loadingText;
+    } else {
+      this._submitButton.textContent = loadedText;
     };
   };
 

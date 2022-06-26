@@ -21,7 +21,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js';
 const api = new Api ('https://mesto.nomoreparties.co/v1/cohort-43', 
 '8636da29-c732-4db2-9071-001062507334');
 
-//добавление карточек на страницу
+//добавление информации на страницу
 const cardElementOnPage = new Section((cards) => {
   const element = createCard(cards);
   cardElementOnPage.addItem(element);
@@ -69,13 +69,13 @@ const createCard = (data) => {
   return cardElement;
 };
 
-api.getInitialCards()
-.then((cards) => {
-  cardElementOnPage.renderItems(cards.reverse());
-})
-.catch((err) => {
-  console.log(err);
-});
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([data, cards]) => {
+    userId = data._id; 
+    profileInfo.setUserInfo(data);
+    cardElementOnPage.renderItems(cards.reverse());
+  })
+  .catch(err => {console.log(err)});
 
 //создание карточки через форму
 const cardPopup = new PopupWithForm('.popup_add-card', {
@@ -126,15 +126,6 @@ const profileInfo = new UserInfo({
 });
 
 let userId = null;
-
-api.getUserInfo()
-.then((data) => {
-  profileInfo.setUserInfo(data);
-  userId = data._id; 
-})
-.catch((err) => {
-  console.log(err);
-});
 
 //редактирование формы профиля
 const profilePopup = new PopupWithForm('.popup_correct-info', 
